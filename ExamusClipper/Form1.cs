@@ -31,7 +31,7 @@ namespace ExamusClipper
             InitializeComponent();
 
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = assembly.GetName().Name + ".Resources.TOKB.json";
+            var resourceName = assembly.GetName().Name + ".Resources.BSBD.json";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
             {

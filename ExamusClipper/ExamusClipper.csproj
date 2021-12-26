@@ -10,10 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\BSBD.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ico\icoProg.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\BSBD.json" />
     <EmbeddedResource Include="Resources\TOKB.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

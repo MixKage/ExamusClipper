@@ -42,6 +42,7 @@
             this.MaximumSize = new System.Drawing.Size(166, 47);
             this.Name = "Form1";
             this.Text = "ExamusClipper";
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.ResumeLayout(false);
 
         }

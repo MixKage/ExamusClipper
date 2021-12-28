@@ -79,12 +79,12 @@ namespace ExamusClipper
             if (clip == null && clip.ToString() == "") return;
             if (clip == OldAnswer) return;
 
-            if (mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value != "")
+            if (mydictionary.FirstOrDefault(x => x.Key.Replace(" ","").Contains(clip.Replace(" ",""),StringComparison.CurrentCultureIgnoreCase)).Value != "")
             {
                 //Выводим показываем сообщение с текстом, скопированным из буфера обмена
                 //MessageBox.Show(this, someText, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                OldAnswer = mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value;
-                if (OldAnswer != null)
+                OldAnswer = mydictionary.FirstOrDefault(x => x.Key.Replace(" ","").Contains(clip.Replace(" ",""), StringComparison.CurrentCultureIgnoreCase)).Value;
+                if (OldAnswer != null) 
                     Clipboard.SetText(OldAnswer);
                 //label1.Text = OldAnswer;
                 if (OldAnswer != null)

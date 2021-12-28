@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>ico\icoProg.ico</ApplicationIcon>
+    <ApplicationIcon>ico\ExamusClipperIco.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ico\icoProg.ico" />
+    <Content Include="ico\ExamusClipperIco.ico" />
   </ItemGroup>
 
   <ItemGroup>

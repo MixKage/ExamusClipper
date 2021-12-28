@@ -36,10 +36,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(148, 0);
+            this.ClientSize = new System.Drawing.Size(315, 186);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(166, 47);
             this.Name = "Form1";
             this.Text = "ExamusClipper";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;

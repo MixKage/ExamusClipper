@@ -11,7 +11,7 @@ namespace ExamusClipper
     {
         Body body = new Body();
         public static string JSON = "";
-        static Dictionary<string, string> mydictionary = new Dictionary<string, string>();
+        static Dictionary<string, string> myDictionary = new Dictionary<string, string>();
         string OldAnswer = "";
         bool isFirstStart = true;
         //Перехват буфера
@@ -59,7 +59,7 @@ namespace ExamusClipper
             }
             if (settingBody != null || settingBody != "")
             {
-                MessageBox.Show("Выберите файл с ответами");  
+                MessageBox.Show("Выберите файл с ответами");
                 return;
             }
             body = JsonSerializer.Deserialize<Body>(settingBody);
@@ -140,11 +140,13 @@ namespace ExamusClipper
             if (clip == null || clip.ToString() == "") return;
             if (clip == OldAnswer) return;
 
-            if (mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value != "")
+            var ansFromDict = GetAnsFromDict(clip);
+
+            if (ansFromDict != "")
             {
                 //Выводим показываем сообщение с текстом, скопированным из буфера обмена
                 //MessageBox.Show(this, someText, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                OldAnswer = mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value;
+                OldAnswer = ansFromDict;
                 if (OldAnswer != null)
                     Clipboard.SetText(OldAnswer);
                 //label1.Text = OldAnswer;
@@ -168,6 +170,33 @@ namespace ExamusClipper
                 Clipboard.SetText("НЕ НАЙДЕНО!)", TextDataFormat.UnicodeText);
             }
         }
+
+
+        private string GetAnsFromDict(string clip)
+        {
+            var charArray = new[] { ' ', '\n', '\r', '\t', '.', ';', ',' };
+
+            return myDictionary.FirstOrDefault(
+                            x =>
+                                RemoveCharArrayFromString(x.Key, charArray).
+                                    Contains(
+                                            RemoveCharArrayFromString(clip, charArray),
+                                            StringComparison.InvariantCultureIgnoreCase
+                                    )
+            ).Value;
+        }
+
+        private string RemoveCharArrayFromString(string inputStr, char[] charArr)
+        {
+            var output = inputStr;
+            foreach (var c in charArr)
+            {
+                output = output.Replace(c.ToString(), string.Empty);
+            }
+            return output;
+        }
+
+
         //Перемещение окна используя путую область
         private void Form1_MouseDown(object sender,
         System.Windows.Forms.MouseEventArgs e)
@@ -201,8 +230,8 @@ namespace ExamusClipper
 
             JSON = System.IO.File.ReadAllText(filename);
             //JSON = File.ReadAllText("Resources\\TOKB.json");
-            mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
-            if(mydictionary == null)
+            myDictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
+            if (myDictionary == null)
             {
                 MessageBox.Show("Файл битый");
             }

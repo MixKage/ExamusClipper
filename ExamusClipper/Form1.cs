@@ -11,7 +11,7 @@ namespace ExamusClipper
         static Dictionary<string, string> mydictionary = new Dictionary<string, string>();
         string OldAnswer = "";
         bool isFirstStart = true;
-
+        //Перехват буфера
         [DllImport("User32.dll")]
         protected static extern int
                SetClipboardViewer(int hWndNewViewer);
@@ -23,6 +23,15 @@ namespace ExamusClipper
         public static extern int SendMessage(IntPtr hwnd, int wMsg,
                                              IntPtr wParam,
                                              IntPtr lParam);
+        //Перемещение окна
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
 
         IntPtr nextClipboardViewer;
 
@@ -108,5 +117,18 @@ namespace ExamusClipper
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void Form1_MouseDown(object sender,
+        System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
     }
 }

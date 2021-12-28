@@ -1,5 +1,4 @@
 //https://ru.stackoverflow.com/questions/589585/%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B7%D0%B0-%D0%B1%D1%83%D1%84%D0%B5%D1%80%D0%BE%D0%BC-%D0%BE%D0%B1%D0%BC%D0%B5%D0%BD%D0%B0
-using ExamusClipper.Settings;
 using System.Text.Json;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -9,8 +8,8 @@ namespace ExamusClipper
 {
     public partial class Form1 : Form
     {
-        Body body = new Body();
         public static string JSON = "";
+        public static string fileMap = "";
         static Dictionary<string, string> mydictionary = new Dictionary<string, string>();
         string OldAnswer = "";
         bool isFirstStart = true;
@@ -43,67 +42,45 @@ namespace ExamusClipper
             InitializeComponent();
             nextClipboardViewer = (IntPtr)SetClipboardViewer((int)
             this.Handle);
+
+            this.ShowInTaskbar = true;
+
             openFileDialog1.Filter = "Answer(*.json)|*.json|All files(*.*)|*.*";
             firstOpenFile();
             //readJSON();
         }
         private void firstOpenFile()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = assembly.GetName().Name + ".Resources.settings.json";
-            string settingBody = "";
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                settingBody = reader.ReadToEnd();
-            }
-            if (settingBody != null || settingBody != "")
-            {
-                MessageBox.Show("Выберите файл с ответами");  
-                return;
-            }
-            body = JsonSerializer.Deserialize<Body>(settingBody);
-
-            if (body == null || body.fileMap == "")
+            BufCheck.Checked = (bool)Properties.Settings.Default["isBuffer"];
+            NotifyCheck.Checked = (bool)Properties.Settings.Default["isNotify"];
+            if (Properties.Settings.Default["fileMap"].ToString() == "")
             {
                 MessageBox.Show("Выберите файл с ответами");
                 return;
             }
-
-            BufCheck.Checked = body.isBuffer;
-            NotifyCheck.Checked = body.isNotify;
-        }
-        private void writeJSON()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = assembly.GetName().Name + ".Resources.settings.json";
-            string settingBody = "";
-            var options = new JsonSerializerOptions
+            try
             {
-                WriteIndented = true
-            };
-            string json = JsonSerializer.Serialize<Body>(body, options);
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamWriter writer = new StreamWriter(stream))
+                JSON = System.IO.File.ReadAllText(Properties.Settings.Default["fileMap"].ToString());
+            }
+            catch
             {
-                writer.Write(json);
+                MessageBox.Show("Файл битый");
+            }
+            //JSON = File.ReadAllText("Resources\\TOKB.json");
+            mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
+            if (mydictionary == null)
+            {
+                MessageBox.Show("Файл битый");
+                //this.ShowInTaskbar = true;
+                this.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                MessageBox.Show("Открыт предыдущий файл");
+                //this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
             }
         }
-        //private void readJSON()
-        //{
-        //    var assembly = Assembly.GetExecutingAssembly();
-        //    var resourceName = assembly.GetName().Name + ".Resources.settings.json";
-        //    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-        //    using (StreamReader reader = new StreamReader(stream))
-        //    {
-        //        JSON = reader.ReadToEnd();
-        //    }
-        //    //JSON = File.ReadAllText("Resources\\TOKB.json");
-        //    mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
-
-
-        //}
 
         protected override void WndProc(ref Message m)
 
@@ -142,13 +119,10 @@ namespace ExamusClipper
 
             if (mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value != "")
             {
-                //Выводим показываем сообщение с текстом, скопированным из буфера обмена
-                //MessageBox.Show(this, someText, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 OldAnswer = mydictionary.FirstOrDefault(x => x.Key.Contains(clip)).Value;
-                if (OldAnswer != null)
+                if (OldAnswer != null && (bool)Properties.Settings.Default["isBuffer"])
                     Clipboard.SetText(OldAnswer);
-                //label1.Text = OldAnswer;
-                if (OldAnswer != null)
+                if (OldAnswer != null && (bool)Properties.Settings.Default["isNotify"])
                     MessageBox.Show(OldAnswer);
                 else
                 {
@@ -165,7 +139,7 @@ namespace ExamusClipper
             {
                 //Выводим сообщение о том, что в буфере обмена нет текста
                 //MessageBox.Show(this, "В буфере обмена нет текста", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Clipboard.SetText("НЕ НАЙДЕНО!)", TextDataFormat.UnicodeText);
+                Clipboard.SetText("Ошибка", TextDataFormat.UnicodeText);
             }
         }
         //Перемещение окна используя путую область
@@ -180,13 +154,19 @@ namespace ExamusClipper
         }
         private void NotifyCheck_CheckedChanged(object sender, EventArgs e)
         {
-            body.isNotify = (sender as CheckBox).Checked;
-            writeJSON();
+            Properties.Settings.Default["isNotify"] = (sender as CheckBox).Checked;
+            Properties.Settings.Default.Save();
         }
         private void BufCheck_CheckedChanged(object sender, EventArgs e)
         {
-            body.isBuffer = (sender as CheckBox).Checked;
-            writeJSON();
+            Properties.Settings.Default["isBuffer"] = (sender as CheckBox).Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void icocheck_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default["isIcon"] = (sender as CheckBox).Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void file_Click(object sender, EventArgs e)
@@ -195,18 +175,24 @@ namespace ExamusClipper
                 return;
             // получаем выбранный файл
             string filename = openFileDialog1.FileName;
-            // читаем файл в строку
-            string fileText = System.IO.File.ReadAllText(filename);
-            body = JsonSerializer.Deserialize<Body>(fileText);
 
             JSON = System.IO.File.ReadAllText(filename);
             //JSON = File.ReadAllText("Resources\\TOKB.json");
             mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
-            if(mydictionary == null)
+            if (mydictionary == null)
             {
                 MessageBox.Show("Файл битый");
             }
-            MessageBox.Show("Файл открыт");
+            else
+            {
+                MessageBox.Show("Файл открыт");
+                //this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+                if ((bool)Properties.Settings.Default["isIcon"])
+                    this.Icon = Icon.ExtractAssociatedIcon(@"C:\Users\shish\source\repos\ExamusClipper\ExamusClipper\Resources\shadow.ico");
+                Properties.Settings.Default["fileMap"] = filename;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)

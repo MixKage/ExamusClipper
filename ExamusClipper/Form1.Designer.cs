@@ -35,6 +35,7 @@
             this.file = new System.Windows.Forms.Button();
             this.bynnc = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.iconcheck = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // NotifyCheck
@@ -46,7 +47,7 @@
             this.NotifyCheck.TabIndex = 0;
             this.NotifyCheck.Text = "Уведомления";
             this.NotifyCheck.UseVisualStyleBackColor = true;
-            this.NotifyCheck.CheckedChanged += new System.EventHandler(this.NotifyCheck_CheckedChanged);
+            this.NotifyCheck.Click += new System.EventHandler(this.NotifyCheck_CheckedChanged);
             // 
             // BufCheck
             // 
@@ -57,12 +58,12 @@
             this.BufCheck.TabIndex = 1;
             this.BufCheck.Text = "Буфер";
             this.BufCheck.UseVisualStyleBackColor = true;
-            this.BufCheck.CheckedChanged += new System.EventHandler(this.BufCheck_CheckedChanged);
+            this.BufCheck.Click += new System.EventHandler(this.BufCheck_CheckedChanged);
             // 
             // file
             // 
             this.file.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.file.Location = new System.Drawing.Point(0, 48);
+            this.file.Location = new System.Drawing.Point(0, 78);
             this.file.Name = "file";
             this.file.Size = new System.Drawing.Size(148, 29);
             this.file.TabIndex = 2;
@@ -74,7 +75,7 @@
             // 
             this.bynnc.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.bynnc.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.bynnc.Location = new System.Drawing.Point(0, 77);
+            this.bynnc.Location = new System.Drawing.Point(0, 110);
             this.bynnc.Name = "bynnc";
             this.bynnc.Size = new System.Drawing.Size(148, 20);
             this.bynnc.TabIndex = 3;
@@ -86,20 +87,29 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // iconcheck
+            // 
+            this.iconcheck.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.iconcheck.Location = new System.Drawing.Point(0, 45);
+            this.iconcheck.Name = "iconcheck";
+            this.iconcheck.Size = new System.Drawing.Size(126, 30);
+            this.iconcheck.TabIndex = 4;
+            this.iconcheck.Text = "Без иконки";
+            this.iconcheck.UseVisualStyleBackColor = true;
+            this.iconcheck.Click += new System.EventHandler(this.icocheck_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(148, 103);
+            this.ClientSize = new System.Drawing.Size(148, 139);
+            this.Controls.Add(this.iconcheck);
             this.Controls.Add(this.bynnc);
             this.Controls.Add(this.file);
             this.Controls.Add(this.BufCheck);
             this.Controls.Add(this.NotifyCheck);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.ShowInTaskbar = false;
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.ResumeLayout(false);
 
@@ -112,5 +122,6 @@
         private Button file;
         private Label bynnc;
         private OpenFileDialog openFileDialog1;
+        private CheckBox iconcheck;
     }
 }

@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <None Remove="Resources\BSBD.json" />
-    <None Remove="Settings\settings.json" />
+    <None Remove="Resources\shadow.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,14 +20,29 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\BSBD.json" />
+    <EmbeddedResource Include="Resources\shadow.ico" />
     <EmbeddedResource Include="Resources\TOKB.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\settings.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

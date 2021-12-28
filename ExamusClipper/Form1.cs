@@ -45,7 +45,7 @@ namespace ExamusClipper
             this.Handle);
             openFileDialog1.Filter = "Answer(*.json)|*.json|All files(*.*)|*.*";
             firstOpenFile();
-            readJSON();
+            //readJSON();
         }
         private void firstOpenFile()
         {
@@ -59,7 +59,7 @@ namespace ExamusClipper
             }
             if (settingBody != null || settingBody != "")
             {
-                MessageBox.Show("Выберите файл с ответами");
+                MessageBox.Show("Выберите файл с ответами");  
                 return;
             }
             body = JsonSerializer.Deserialize<Body>(settingBody);
@@ -90,20 +90,20 @@ namespace ExamusClipper
                 writer.Write(json);
             }
         }
-        private void readJSON()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = assembly.GetName().Name + ".Resources.settings.json";
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                JSON = reader.ReadToEnd();
-            }
-            //JSON = File.ReadAllText("Resources\\TOKB.json");
-            mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
+        //private void readJSON()
+        //{
+        //    var assembly = Assembly.GetExecutingAssembly();
+        //    var resourceName = assembly.GetName().Name + ".Resources.settings.json";
+        //    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+        //    using (StreamReader reader = new StreamReader(stream))
+        //    {
+        //        JSON = reader.ReadToEnd();
+        //    }
+        //    //JSON = File.ReadAllText("Resources\\TOKB.json");
+        //    mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
 
 
-        }
+        //}
 
         protected override void WndProc(ref Message m)
 
@@ -204,7 +204,7 @@ namespace ExamusClipper
             mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
             if(mydictionary == null)
             {
-                MessageBox.Show("Файл б");
+                MessageBox.Show("Файл битый");
             }
             MessageBox.Show("Файл открыт");
         }

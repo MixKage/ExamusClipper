@@ -49,6 +49,7 @@ namespace ExamusClipper
         {
             BufCheck.Checked = (bool)Properties.Settings.Default["isBuffer"];
             NotifyCheck.Checked = (bool)Properties.Settings.Default["isNotify"];
+            iconcheck.Checked = (bool)Properties.Settings.Default["isIcon"];
             if (Properties.Settings.Default["fileMap"].ToString() == "")
             {
                 MessageBox.Show("Выберите файл с ответами");
@@ -63,8 +64,8 @@ namespace ExamusClipper
                 MessageBox.Show("Файл битый");
             }
             //JSON = File.ReadAllText("Resources\\TOKB.json");
-            mydictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
-            if (mydictionary == null)
+            myDictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(JSON);
+            if (myDictionary == null)
             {
                 MessageBox.Show("Файл битый");
                 //this.ShowInTaskbar = true;
@@ -73,6 +74,10 @@ namespace ExamusClipper
             else
             {
                 MessageBox.Show("Открыт предыдущий файл");
+                if ((bool)Properties.Settings.Default["isIcon"])
+                {
+                    this.Icon = Properties.Resources.shadow;
+                }
                 //this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
             }
@@ -194,6 +199,14 @@ namespace ExamusClipper
         {
             Properties.Settings.Default["isIcon"] = (sender as CheckBox).Checked;
             Properties.Settings.Default.Save();
+            if ((bool)Properties.Settings.Default["isIcon"])
+            {
+                this.Icon = Properties.Resources.shadow;
+            }
+            else
+            {
+                this.Icon = Properties.Resources.ExamusClipperIco;
+            }
         }
 
         private void file_Click(object sender, EventArgs e)
@@ -216,15 +229,12 @@ namespace ExamusClipper
                 //this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
                 if ((bool)Properties.Settings.Default["isIcon"])
-                    this.Icon = Icon.ExtractAssociatedIcon(@"C:\Users\shish\source\repos\ExamusClipper\ExamusClipper\Resources\shadow.ico");
+                {
+                    this.Icon = Properties.Resources.shadow;
+                }
                 Properties.Settings.Default["fileMap"] = filename;
                 Properties.Settings.Default.Save();
             }
-        }
-
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
         }
     }
 }

@@ -82,11 +82,6 @@
             this.bynnc.Text = "v.1.0 by NNC";
             this.bynnc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
             // iconcheck
             // 
             this.iconcheck.Anchor = System.Windows.Forms.AnchorStyles.Top;

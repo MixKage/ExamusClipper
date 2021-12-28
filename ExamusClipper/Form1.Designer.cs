@@ -33,13 +33,13 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.file = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.bynnc = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 12);
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.checkBox1.Location = new System.Drawing.Point(0, 3);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(126, 24);
             this.checkBox1.TabIndex = 0;
@@ -49,8 +49,8 @@
             // 
             // checkBox2
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(12, 42);
+            this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.checkBox2.Location = new System.Drawing.Point(0, 24);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(74, 24);
             this.checkBox2.TabIndex = 1;
@@ -59,29 +59,31 @@
             // 
             // file
             // 
-            this.file.Location = new System.Drawing.Point(12, 72);
+            this.file.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.file.Location = new System.Drawing.Point(0, 48);
             this.file.Name = "file";
-            this.file.Size = new System.Drawing.Size(124, 29);
+            this.file.Size = new System.Drawing.Size(148, 29);
             this.file.TabIndex = 2;
             this.file.Text = "Файл";
             this.file.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // bynnc
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 104);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "v.1.0 by NNC";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.bynnc.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.bynnc.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.bynnc.Location = new System.Drawing.Point(0, 77);
+            this.bynnc.Name = "bynnc";
+            this.bynnc.Size = new System.Drawing.Size(148, 20);
+            this.bynnc.TabIndex = 3;
+            this.bynnc.Text = "v.1.0 by NNC";
+            this.bynnc.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(148, 133);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(148, 103);
+            this.Controls.Add(this.bynnc);
             this.Controls.Add(this.file);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -92,7 +94,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -101,6 +102,6 @@
         private CheckBox checkBox1;
         private CheckBox checkBox2;
         private Button file;
-        private Label label1;
+        private Label bynnc;
     }
 }

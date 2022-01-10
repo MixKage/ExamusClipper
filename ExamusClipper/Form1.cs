@@ -120,15 +120,15 @@ namespace ExamusClipper
 
             var ansFromDict = GetAnsFromDict(clip);
 
-            if (ansFromDict != "")
+            if (ansFromDict.Count != 0)
             {
                 //Выводим показываем сообщение с текстом, скопированным из буфера обмена
                 //MessageBox.Show(this, someText, "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                OldAnswer = ansFromDict;
+                OldAnswer = ansFromDict[0];
                 if (OldAnswer != null)
                     Clipboard.SetText(OldAnswer);
                 if (OldAnswer != null && (bool)Properties.Settings.Default["isNotify"])
-                    MessageBox.Show(OldAnswer);
+                    MessageBox.Show(String.Join("\n--\n", ansFromDict.ToArray()));
                 else
                 {
                     if (isFirstStart)
@@ -149,18 +149,33 @@ namespace ExamusClipper
         }
 
 
-        private string GetAnsFromDict(string clip)
+        private List<string> GetAnsFromDict(string clip)
         {
-            var charArray = new[] { ' ', '\n', '\r', '\t', '.', ';', ',' };
-
-            return myDictionary.FirstOrDefault(
+            var charArray = new[] { ' ', '\n', '\r', '\t', '.', ';', ',', '!', '?', '\'', '"' };
+            var list_ans = myDictionary.Where(
                             x =>
                                 RemoveCharArrayFromString(x.Key, charArray).
                                     Contains(
                                             RemoveCharArrayFromString(clip, charArray),
                                             StringComparison.InvariantCultureIgnoreCase
                                     )
-            ).Value;
+
+            ).ToList();
+
+            if (list_ans.Count == 0)
+                return new List<string>();
+            else if (list_ans.Count == 1)
+                return new List<string> { list_ans[0].Value };
+            else
+            {
+                var tmp = new List<string>();
+                foreach (var ans in list_ans)
+                {
+                    tmp.Add(ans.Value);
+                }
+                return tmp.Distinct().ToList();
+            }
+                
         }
 
         private string RemoveCharArrayFromString(string inputStr, char[] charArr)
